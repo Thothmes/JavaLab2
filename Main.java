@@ -145,11 +145,11 @@ public class Main {
                 System.out.print("Выберите режим работы. 1 - ввести секунды, 2 - ввести часы, минуты, секунды: ");
                 int num = n.nextInt();
                 if (num == 1){
-                    System.out.println("Введите время в секундах");
+                    System.out.println("Введите время в секундах: ");
                     int sec2 = n.nextInt();
-                    changeTime(sec2);
+                    System.out.print(changeTime(sec2));
                 }
-                if (num == 2){
+                else if (num == 2){
                     System.out.println("Введите часы: ");
                     int hrs = n.nextInt();
                     System.out.println("Введите минуты: ");
