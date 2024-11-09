@@ -9,13 +9,13 @@ public class Main {
         System.out.print("""
                 ЛАБОРАТОРНАЯ РАБОТА №2
                 ВЫПОЛНИЛ - КУЛАКОВ МАКСИМ ИТ-6 (ПМИ-10/2023)
-                ВАРИАНТ 7
+                ВАРИАНТ 2
                 
                 Задания 1,2 - задания 3,4 темы 1
-                Задание 3 - задание 4 темы 2
-                Задание 4 - задание 4 темы 3
-                Задание 5 - задание 4 темы 4
-                Задание 6 - задание 4 темы 5
+                Задания 3 - задания 4 темы 2
+                Задания 4 - задания 4 темы 3
+                Задания 5 - задания 4 темы 4
+                Задания 6 - задания 4 темы 5
                 Что-бы выйти - введите 0
                 
                 Чтобы просмотреть интересующее вас задание - введите его номер.
@@ -31,7 +31,7 @@ public class Main {
                 System.out.println("\nРабота программы завершена!");
                 break;
             }
-            else if ( 0 < choisenum && choisenum < 6){
+            else if ( 0 < choisenum && choisenum < 21){
                 System.out.println(tasks(choisenum));
             }
             else{
@@ -85,7 +85,9 @@ public class Main {
                         """);
                 System.out.println("Введите время в секундах");
                 int sec = n.nextInt();
-                System.out.print(changeTime(sec));
+                Time NewTime1 = new Time(sec);
+                System.out.println("Результат работы: ");
+                System.out.print(NewTime1);
                 break;
 
             case 3:
@@ -105,8 +107,8 @@ public class Main {
                         оказаться один и тот же отдел и начальник).
                         
                         """);
-
                 DepWork();
+                System.out.println("Результат работы: ");
                 break;
 
             case 4:
@@ -120,9 +122,11 @@ public class Main {
                         """);
 
                 Worker Rabotnik = DepWorkMod1();
-                Departament Dep =  Rabotnik.Dep;
-                for (int i = 0; i < Dep.Workers.length; i++) {
-                    System.out.print("Работник " + Dep.Workers[i].Name + " работает в " + Dep.DepName + " отделе" + "\n");
+                Departament Dep = Rabotnik.getDep();
+                Worker[] List = Dep.getWorkers();
+                for (int i = 0; i < List.length; i++) {
+                    Worker rabochiy = List[i];
+                    System.out.print("Работник " + rabochiy.getName() + " работает в " + Dep.getDepName() + " отделе" + "\n");
                 }
                 break;
 
@@ -145,9 +149,11 @@ public class Main {
                 System.out.print("Выберите режим работы. 1 - ввести секунды, 2 - ввести часы, минуты, секунды: ");
                 int num = n.nextInt();
                 if (num == 1){
-                    System.out.println("Введите время в секундах: ");
+                    System.out.println("Введите время в секундах");
                     int sec2 = n.nextInt();
-                    System.out.print(changeTime(sec2));
+                    Time NewTime2 = new Time(sec2);
+                    System.out.println("Результат работы: ");
+                    System.out.print(NewTime2);
                 }
                 else if (num == 2){
                     System.out.println("Введите часы: ");
@@ -155,14 +161,9 @@ public class Main {
                     System.out.println("Введите минуты: ");
                     int min = n.nextInt();
                     System.out.println("Введите секунды: ");
-                    int secunds = n.nextInt();
-                    if ((hrs < 0 || hrs >= 24 || min < 0 || min >= 60 || secunds < 0 || secunds >= 60)) {
-                        System.out.print("Данные некорректны");
-                    }
-                    else {
-                        Time NewTime = new Time(hrs, min, secunds);
-                        System.out.print(NewTime);
-                    }
+                    int sec2 = n.nextInt();
+                    Time NewTime2 = new Time(hrs, min, sec2);
+                    System.out.print(NewTime2);
                 }
                 else {
                     System.out.println("Вы ввели неуказанное в режимах число");
@@ -184,19 +185,17 @@ public class Main {
                         3. Вывести на экран сколько секунд соответствуют времени 123
                         
                         """);
-                System.out.println("Введите время в секундах: ");
-                int sec3 = n.nextInt();
-                Time NewTime = changeTime(sec3);
+                Time NewTime3 = task4();
                 System.out.println("Выберите, что хотите узнать: 1 - часы, 2 - минуты, 3 - секунды: ");
                 int num1 = n.nextInt();
                 if (num1 == 1) {
-                    System.out.print(NewTime.getHours());
+                    System.out.print(NewTime3.getHours());
                 }
                 else if (num1 == 2) {
-                    System.out.print(NewTime.getMinutes());
+                    System.out.print(NewTime3.getMinutes());
                 }
                 else if (num1 == 3) {
-                    System.out.print(NewTime.getSeconds());
+                    System.out.print(NewTime3.getSeconds());
                 }
                 else {
                     System.out.print("Вы ввели непредусмотренное число");
@@ -216,41 +215,17 @@ public class Main {
             System.out.print(person3);
         }
 
-        public Time changeTime(int x) {
-            int sec = x % 60;
-            /*System.out.println(sec);*/
-            x = ((x - sec) / 60);
-            int min = x % 60;
-            /*System.out.println(min);*/
-            x = ((x - min) / 60);
-            int hrs = x % 24;
-            /*System.out.println(hrs);*/
-            Time NewTime = new Time(hrs, min, sec);
-            return NewTime;
-        }
-
         public void DepWork() {
 
             Departament kontora = new Departament("IT");
             Worker Biba = new Worker("Козлов", kontora);
             Worker Boba = new Worker("Петров", kontora);
             Worker Buba = new Worker("Сидоров",kontora);
-            kontora.DepLead = Biba.Name;
-            PrintInfo(Biba, kontora);
-            PrintInfo(Boba, kontora);
-            PrintInfo(Buba, kontora);
+            Biba.setDepLead(true);
+            System.out.print(Biba);
+            System.out.print(Boba);
+            System.out.print(Buba);
         }
-
-    public void PrintInfo(Worker X, Departament Y) {
-
-        if (X.Name != Y.DepLead) {
-            System.out.print(X.Name + " работает в отделе " + Y.DepName + ", начальник которого " + Y.DepLead + "\n");
-        }
-
-        if (X.Name == Y.DepLead) {
-            System.out.print(X.Name + " начальник отдела " + Y.DepName + "\n");
-        }
-    }
 
     public Worker DepWorkMod1(){
         Worker[] ListWorkers = new Worker[3];
@@ -261,7 +236,30 @@ public class Main {
         ListWorkers[1] = Boba;
         Worker Buba = new Worker("Сидоров",kontora);
         ListWorkers[2] = Buba;
-        kontora.Workers = ListWorkers;
+        kontora.setWorkers(ListWorkers);
         return Biba;
+    }
+
+    public Time task4() {
+        System.out.print("Выберите режим работы. 1 - ввести секунды, 2 - ввести часы, минуты, секунды: ");
+        int num = n.nextInt();
+        if (num == 1){
+            System.out.println("Введите время в секундах");
+            int sec2 = n.nextInt();
+            return new Time(sec2);
+        }
+        else if (num == 2){
+            System.out.println("Введите часы: ");
+            int hrs = n.nextInt();
+            System.out.println("Введите минуты: ");
+            int min = n.nextInt();
+            System.out.println("Введите секунды: ");
+            int sec2 = n.nextInt();
+            return new Time(hrs, min, sec2);
+        }
+        else {
+            System.out.println("Вы ввели неуказанное в режимах число");
+            return null;
+        }
     }
 }

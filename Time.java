@@ -1,29 +1,44 @@
 public class Time {
 
-    int hours;
-    int minutes;
-    int seconds;
+    private int hours;
+    private int minutes;
+    private int seconds;
+
+    public Time(int seconds){
+        this.seconds = seconds % 60;
+        this.minutes = ((seconds - (seconds % 60)) / 60) % 60;
+        this.hours = (((((seconds - (seconds % 60)) / 60)) - (((seconds - (seconds % 60)) / 60) % 60)) / 60) % 24;
+    }
 
     public Time(int hours, int minutes, int seconds){
-        this.hours = hours;
-        this.minutes = minutes;
-        this.seconds = seconds;
+        setSeconds(seconds);
+        setMinutes(minutes);
+        setHours(hours);
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
 
-        sb.append(new String (String.valueOf(hours)) + ":");
-        sb.append(new String (String.valueOf(minutes)) + ":");
-        sb.append(new String (String.valueOf(seconds)));
-
-        if (sb.isEmpty()) {
-            return "";
+    public void setHours(int hours) {
+        if (hours < 0 || hours >= 24) {
+            throw new IllegalArgumentException("Некорректные значения часов");
         }
+        this.hours = hours;
+    }
 
-        sb.append("\n");
+    public void setMinutes(int minutes) {
+        if (minutes < 0 || minutes >= 60) {
+            throw new IllegalArgumentException("Некорректные значения минут");
+        }
+        this.minutes = minutes;
+    }
 
-        return sb.toString();
+    public void setSeconds(int seconds) {
+        if (seconds < 0 || seconds >= 60) {
+            throw new IllegalArgumentException("Некорректные значения секунд");
+        }
+        this.seconds = seconds;
     }
 
     public int getHours() {
